@@ -1,8 +1,8 @@
 use std::{collections::HashSet, fs::File, path::PathBuf};
 
-use puree_cli::{config::Config, models::EmbassyStatus, DumpReader};
+use puree_cli::{config::Config, DumpReader};
 
-use anyhow::Result;
+use anyhow::{bail, Result};
 use clap::Parser;
 
 /// Command-line tool to find tagged regions
@@ -12,7 +12,7 @@ struct Args {
     dump: PathBuf,
 }
 
-// const factbook_criteria
+const DEFAULT_CONFIG: &str = include_str!("default.toml");
 
 fn main() -> Result<()> {
     let args = Args::parse();
@@ -21,34 +21,22 @@ fn main() -> Result<()> {
 
     let mut regions_iter = DumpReader::new(dump).regions();
 
-    let config = Config::load("default.toml")?;
+    let Some(project_dirs) = directories::ProjectDirs::from("", "esfalsa", "puree-cli") else {
+        bail!("could not determine configuration directory")
+    };
+
+    std::fs::create_dir_all(project_dirs.config_dir())?;
+
+    let config_path = project_dirs.config_dir().join("config.toml");
+
+    if !config_path.exists() {
+        std::fs::write(&config_path, DEFAULT_CONFIG)?;
+    };
+
+    let config = Config::load(config_path)?;
 
     while let Some(Ok(region)) = regions_iter.next() {
-        if config.exclude.existing_delegates && region.delegate().is_some() {
-            continue;
-        }
-
-        if config.exclude.nonexecutive_delegates && !region.delegate_auth().executive() {
-            continue;
-        }
-
-        if config
-            .exclude
-            .name
-            .iter()
-            .any(|n| n.to_lowercase() == region.name().to_lowercase())
-        {
-            continue;
-        }
-
-        if config.exclude.embassy.iter().any(|e| {
-            region.embassies().iter().any(|emb| {
-                emb.status() != &EmbassyStatus::Closing
-                    && emb.status() != &EmbassyStatus::Rejected
-                    && emb.status() != &EmbassyStatus::Denied
-                    && emb.region().to_lowercase() == e.to_lowercase()
-            })
-        }) {
+        if config.exclude.matches(&region) {
             continue;
         }
 

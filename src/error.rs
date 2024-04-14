@@ -1,5 +1,3 @@
-// use crate::models::{EmbassyBuilderError, OfficerBuilderError, RegionBuilderError};
-
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;

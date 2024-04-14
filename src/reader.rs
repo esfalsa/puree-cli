@@ -114,7 +114,6 @@ impl<R: Read> Iterator for RegionsIter<R> {
                             b"BY" => officer_builder.appointer(text),
 
                             b"EMBASSY" => {
-                                // println!("setting embassy region to {}", text);
                                 embassy_builder.region(text);
 
                                 if let Some(ref tag) = self.current_tag {

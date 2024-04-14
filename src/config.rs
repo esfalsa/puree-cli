@@ -33,6 +33,36 @@ pub struct ExcludeConfig {
     pub nonexecutive_delegates: bool,
 }
 
+impl ExcludeConfig {
+    pub fn matches(&self, region: &Region) -> bool {
+        if self.existing_delegates && region.delegate().is_some() {
+            return true;
+        }
+        if self.nonexecutive_delegates && !region.delegate_auth().executive() {
+            return true;
+        }
+        if self
+            .name
+            .iter()
+            .any(|n| n.to_lowercase() == region.name().to_lowercase())
+        {
+            return true;
+        }
+        if self.embassy.iter().any(|cfg_emb| {
+            region.embassies().iter().any(|emb| {
+                !matches!(
+                    emb.status(),
+                    &EmbassyStatus::Closing | &EmbassyStatus::Rejected | &EmbassyStatus::Denied
+                ) && emb.region().to_lowercase() == cfg_emb.to_lowercase()
+            })
+        }) {
+            return true;
+        }
+
+        false
+    }
+}
+
 #[derive(Deserialize)]
 pub struct IncludeConfig {
     pub factbook: Vec<FactbookConfig>,
