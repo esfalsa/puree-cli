@@ -292,7 +292,7 @@ impl OfficerBuilder {
     }
 }
 
-#[derive(Debug)]
+#[derive(PartialEq, Eq, Debug)]
 pub enum EmbassyStatus {
     Open,
     Pending,

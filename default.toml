@@ -1,0 +1,306 @@
+[exclude]
+name = [
+  "suspicious",
+  "the black hawks",
+  "the brotherhood of malice",
+  "lily",
+  "osiris",
+]
+embassy = ["antifa"]
+existing_delegates = true
+nonexecutive_delegates = true
+
+[include]
+[[include.factbook]]
+contains = [
+  "[region]the brotherhood of malice[/region]",
+  "region=the_brotherhood_of_malice",
+]
+org = "BoM"
+
+[[include.factbook]]
+contains = [
+  "[region]the black hawks[/region]",
+  "region=the_black_hawks",
+  "www.forum.the-black-hawks.org",
+]
+org = "TBH"
+
+[[include.factbook]]
+contains = [
+  "[region]valle de arena[/region]",
+  "region=valle_de_arena",
+  "discord.gg/k9fTy9wm",
+  "osiris.valthost.com",
+]
+org = "Osiris"
+
+[[include.factbook]]
+contains = ["[region]lily[/region]", "region=lily", "lilystates.proboards.com"]
+org = "Lily"
+
+[[include.factbook]]
+contains = ["[region]lone wolves united[/region]", "region=lone_wolves_united"]
+org = "LWU"
+
+[[include.factbook]]
+contains = ["[region]kantrias[/region]", "region=kantrias"]
+org = "Kantrias"
+
+[[include.factbook]]
+contains = ["[region]sparkalia[/region]", "region=sparkalia"]
+org = "Sparkalia"
+
+[[include.factbook]]
+contains = [
+  "[region]junta[/region]",
+  "region=junta",
+  "nationstates.net/page=dispatch/id=1881670",
+  "discord.gg/z7qWg9Snzb",
+]
+org = "Junta"
+
+[[include.factbook]]
+contains = [
+  "[region]the eternal order[/region]",
+  "region=the_eternal_order",
+  "[region]the brothers of auralia[/region]",
+  "region=the_brothers_of_auralia",
+  "[region]the auralian knights[/region]",
+  "region=the_auralian_knights",
+  "by the eternal order",
+  "by the brothers of auralia",
+  "long live the eternal order",
+  "long live king nephmir",
+]
+org = "TEO"
+
+[[include.factbook]]
+contains = [
+  "forums.europeians.com/index.php?forums/office-of-naval-recruitment.59364",
+]
+org = "ERN"
+
+[[include.factbook]]
+contains = ["www.nationstates.net/page=dispatch/id=1344417"]
+org = "TWP"
+
+[[include.factbook]]
+contains = [
+  "forum.theeastpacific.com/executive-application-thread-t16445.html",
+  "forum.theeastpacific.com/t/apply-to-join-the-eastern-pacific-sovereign-army/16275",
+]
+org = "EPSA"
+
+[[include.factbook]]
+contains = [
+  "www.nationstates.net/nation=huben/detail=factbook/id=1585974",
+  "www.youtube.com/watch?v=em8GF93zQfk",
+  "list=PLErS5N1ZzdNvmV-TD8VqhvfCeHcfPwq5U",
+]
+org = "Kaiserreich"
+
+[[include.factbook]]
+contains = ["forum.thenorthpacific.org/topic/9145375"]
+org = "NPA"
+
+[[include.factbook]]
+contains = ["discord.gg/8qWbXFUMAr"]
+org = "Ijaka"
+
+[[include.factbook]]
+contains = ["www.nationstates.net/page=dispatch/id=1957508"]
+org = "Lair"
+
+[[include.factbook]]
+contains = ["(trigger)", "tag run"]
+
+[[include.factbook]]
+contains = ["[region]the militia[/region]", "region=the_militia"]
+org = "Militia"
+
+
+[[include.office]]
+equals = [
+  '''raider unity''',
+  '''thorn1000''',
+  '''the funny''',
+  "empress wasc",
+  "kanye omari west",
+  "hellfire hawk",
+  "moxxie cultist",
+  "not atlae",
+  "chimera",
+  "brony",
+]
+
+[[include.office]]
+equals = ["join tbh"]
+org = "TBH"
+
+[[include.office]]
+equals = ["join %%lily%%", "lily"]
+org = "Lily"
+
+[[include.office]]
+equals = ["ern"]
+org = "ERN"
+
+[[include.office]]
+equals = ["twpirate", "twpirates"]
+org = "TWP"
+
+[[include.office]]
+equals = ["aga gang", "epsa"]
+org = "EPSA"
+
+[[include.office]]
+equals = ["blanket stealer"]
+org = "BFL"
+
+[[include.office]]
+equals = ["praf"]
+org = "TCB"
+
+[[include.office]]
+equals = ["the eo"]
+org = "TEO"
+
+[[include.office]]
+equals = ["the silver dragon"]
+org = "Lair"
+
+[[include.office]]
+equals = ["npa"]
+org = "NPA"
+
+[[include.office]]
+equals = ["kantrian overseer"]
+org = "Kantrias"
+
+[[include.office]]
+equals = ["thaempirial army"]
+org = "Thaecia"
+
+
+[[include.appointer]]
+regex = [
+  '''guy_\d+''',
+  '''rc_cola_\d+''',
+  '''ijaka(\d|10)''',
+  '''taiko_no_tatsujin_\d+''',
+  '''bobberino\d+''',
+  '''\d+(rd|th|nd|st)_catgirl_division''',
+  '''switz_got_lazy_\d+''',
+  '''switz_\d+''',
+  '''sweeze_\d+''',
+  '''tls_\d+''',
+  '''flap_flap_boom_\d+''',
+  '''liliarchy_ancillary_\d+''',
+  '''lucklife_\d+''',
+  '''lurklife_\d+''',
+  '''wednesday_\d+''',
+  '''thursday_\d+''',
+  '''thorn\d+''',
+  '''wascoitan_?\d+''',
+  '''pineapple_on_pizza_is_good_\d+''',
+  '''foxes_\d+''',
+  '''oversized_operativez_\d+''',
+  '''cretanja_garrison_\d+''',
+  '''legionnaries_[ivxlcdm]+''',
+  '''legionnary_[ivxlcdm]+''',
+  '''souls\d+''',
+  '''rb\d+''',
+  '''remus_\d+''',
+  '''remus_[ivxlcdm]+''',
+  '''yor_\d+''',
+  '''punch_from_mark_lee_\d+''',
+  '''upc_is_not_fast_\d+''',
+  '''beans_on_toast_\d+''',
+  '''bigred\d+''',
+  '''terberrinse_\d+''',
+  '''flame_of_chaos_\d+''',
+  '''narioni_\d+''',
+  '''jyezet_fighter_\d+''',
+  '''[ivxlcdm]+_proleterska_vazduhoplovna_brigada''',
+  '''fedaykin_\d+''',
+  '''blanket_stealer_\d+''',
+  '''brutal_honesty_\d+''',
+  '''meep\d+''',
+  '''dragoe_\d+(rd|th|nd|st)_army_division''',
+  '''kaf-\d+''',
+  '''notas_\d+(rd|th|nd|st)_puppet''',
+  '''ruby_[ivxlcdm]+''',
+  '''aurum_riders_\d+(rd|th|nd|st)_treasury''',
+  '''a_crazy_person_\d+''',
+  '''bcc_\d+''',
+  '''chimoreian_imperial_legion_[ivxlcdm]+''',
+]
+
+[[include.embassy]]
+equals = ["the black hawks"]
+org = "TBH"
+
+[[include.embassy]]
+equals = ["the brotherhood of malice"]
+org = "BoM"
+
+[[include.embassy]]
+equals = ["valle de arena"]
+org = "Osiris"
+
+[[include.embassy]]
+equals = ["red front"]
+org = "TCB"
+
+[[include.embassy]]
+equals = ["plum island"]
+org = "Lily"
+
+[[include.embassy]]
+equals = ["kingdom of australia"]
+org = "EoGB"
+
+[[include.embassy]]
+equals = ["pasridi confederacy"]
+org = "EPSA"
+
+[[include.embassy]]
+equals = ["ijaka"]
+org = "Ijaka"
+
+[[include.embassy]]
+equals = ["islarabia"]
+org = "Thaecia"
+
+[[include.embassy]]
+equals = ["the militia"]
+org = "Militia"
+
+[[include.embassy]]
+equals = ["agheasma"]
+org = "Sparkalia"
+
+[[include.embassy]]
+equals = ["the northern reach"]
+org = "BFL"
+
+[[include.embassy]]
+equals = ["junta"]
+org = "Junta"
+
+[[include.embassy]]
+equals = ["leningrad airfield"]
+org = "TCB"
+
+[[include.embassy]]
+equals = ["warzone trinidad corporate office"]
+org = "WZT"
+
+[[include.embassy]]
+equals = ["astra"]
+org = "Astoria"
+
+[[include.embassy]]
+equals = ["lair of the dragon"]
+org = "Lair"
