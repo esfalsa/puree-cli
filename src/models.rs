@@ -1,29 +1,20 @@
-use std::{collections::HashSet, fmt::Display};
+use std::fmt::Display;
 
 use crate::error::{Error, Result};
 
 #[derive(Debug)]
-// #[builder(setter(into))]
 pub struct Region {
     name: String,
     factbook: String,
     population: i32,
-
-    // #[builder(setter(strip_option), default)]
     delegate: Option<String>,
     delegate_votes: i32,
     delegate_auth: Authority,
     frontier: bool,
-
-    // #[builder(setter(strip_option), default)]
     governor: Option<String>,
     last_major: i64,
     last_minor: i64,
-
-    // #[builder(setter(each(name = "officer", into)), default)]
     officers: Vec<Officer>,
-
-    // #[builder(setter(each(name = "embassy", into)), default)]
     embassies: Vec<Embassy>,
 }
 
@@ -36,6 +27,33 @@ impl Region {
     }
     pub fn population(&self) -> i32 {
         self.population
+    }
+    pub fn delegate(&self) -> Option<&str> {
+        self.delegate.as_deref()
+    }
+    pub fn delegate_votes(&self) -> i32 {
+        self.delegate_votes
+    }
+    pub fn delegate_auth(&self) -> &Authority {
+        &self.delegate_auth
+    }
+    pub fn frontier(&self) -> bool {
+        self.frontier
+    }
+    pub fn governor(&self) -> Option<&str> {
+        self.governor.as_deref()
+    }
+    pub fn last_major(&self) -> i64 {
+        self.last_major
+    }
+    pub fn last_minor(&self) -> i64 {
+        self.last_minor
+    }
+    pub fn officers(&self) -> &[Officer] {
+        &self.officers
+    }
+    pub fn embassies(&self) -> &[Embassy] {
+        &self.embassies
     }
 }
 
@@ -188,6 +206,24 @@ pub struct Officer {
     appointer: String,
 }
 
+impl Officer {
+    pub fn name(&self) -> &str {
+        &self.name
+    }
+    pub fn office(&self) -> &str {
+        &self.office
+    }
+    pub fn authority(&self) -> &Authority {
+        &self.authority
+    }
+    pub fn time(&self) -> i64 {
+        self.time
+    }
+    pub fn appointer(&self) -> &str {
+        &self.appointer
+    }
+}
+
 #[derive(Default, Debug)]
 pub struct OfficerBuilder {
     name: Option<String>,
@@ -286,6 +322,15 @@ impl From<&str> for EmbassyStatus {
 pub struct Embassy {
     region: String,
     status: EmbassyStatus,
+}
+
+impl Embassy {
+    pub fn region(&self) -> &str {
+        &self.region
+    }
+    pub fn status(&self) -> &EmbassyStatus {
+        &self.status
+    }
 }
 
 #[derive(Default, Debug)]

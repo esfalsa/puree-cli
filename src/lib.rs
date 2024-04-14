@@ -1,6 +1,6 @@
 mod error;
-pub mod matchers;
-mod models;
+// pub mod matchers;
+pub mod models;
 mod reader;
 
 pub use error::{Error, Result};

@@ -55,14 +55,14 @@ impl<R: Read> Iterator for RegionsIter<R> {
                     }
 
                     match e.name().as_ref() {
-                        b"REGION" => return Some(region_builder.build().map_err(|e| e.into())),
+                        b"REGION" => return Some(region_builder.build()),
                         b"OFFICER" => match officer_builder.build() {
                             Ok(officer) => region_builder.officer(officer),
-                            Err(e) => return Some(Err(e.into())),
+                            Err(e) => return Some(Err(e)),
                         },
                         b"EMBASSY" => match embassy_builder.build() {
                             Ok(embassy) => region_builder.embassy(embassy),
-                            Err(e) => return Some(Err(e.into())),
+                            Err(e) => return Some(Err(e)),
                         },
                         _ => (),
                     }
