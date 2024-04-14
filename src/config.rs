@@ -1,8 +1,9 @@
-use std::path::Path;
+use std::{collections::HashSet, path::Path};
 
 use anyhow::Result;
+use itertools::Itertools;
 use regex::Regex;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::models::{EmbassyStatus, Region};
 
@@ -12,10 +13,85 @@ pub struct Config {
     pub include: IncludeConfig,
 }
 
+#[derive(Serialize)]
+pub struct RegionMatchOutcome {
+    name: String,
+    wfe: bool,
+    ro: bool,
+    embassies: bool,
+    orgs: String,
+}
+
 impl Config {
     pub fn load<P: AsRef<Path>>(path: P) -> Result<Self> {
         let config = std::fs::read_to_string(path)?;
         Ok(toml::from_str(&config)?)
+    }
+
+    pub fn matches(&self, region: &Region) -> Option<RegionMatchOutcome> {
+        if self.exclude.matches(region) {
+            return None;
+        }
+
+        let mut orgs = HashSet::new();
+
+        let mut factbook = false;
+        let mut ros = false;
+        let mut embassies = false;
+
+        for factbook_config in &self.include.factbook {
+            if factbook_config.matches(&region) {
+                factbook = true;
+                if let Some(org) = &factbook_config.org {
+                    orgs.insert(org);
+                }
+            }
+        }
+
+        for office_config in &self.include.office {
+            if office_config.matches(&region) {
+                ros = true;
+                if let Some(org) = &office_config.org {
+                    orgs.insert(org);
+                }
+            }
+        }
+
+        for appointer_config in &self.include.appointer {
+            if appointer_config.matches(&region) {
+                ros = true;
+            }
+        }
+
+        for embassy_config in &self.include.embassy {
+            if embassy_config.matches(&region) {
+                embassies = true;
+                if let Some(org) = &embassy_config.org {
+                    orgs.insert(org);
+                }
+            }
+        }
+
+        if factbook || ros || embassies {
+            let name = if matches!(
+                region.name().chars().next(),
+                Some('=') | Some('+') | Some('-') | Some('@')
+            ) {
+                format!("'{}", region.name())
+            } else {
+                region.name().to_string()
+            };
+
+            Some(RegionMatchOutcome {
+                name,
+                wfe: factbook,
+                ro: ros,
+                embassies,
+                orgs: orgs.iter().join(", "),
+            })
+        } else {
+            None
+        }
     }
 }
 

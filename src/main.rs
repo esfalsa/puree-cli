@@ -1,8 +1,8 @@
-use std::{collections::HashSet, fs::File, path::PathBuf};
+use std::{fs::File, io::Write, path::PathBuf};
 
 use puree_cli::{config::Config, DumpReader};
 
-use anyhow::{bail, Result};
+use anyhow::{bail, Context, Result};
 use clap::Parser;
 
 /// Command-line tool to find tagged regions
@@ -10,6 +10,10 @@ use clap::Parser;
 struct Args {
     /// Path to regions daily dump to search
     dump: PathBuf,
+
+    /// File to write output to
+    #[clap(short, long)]
+    output: Option<PathBuf>,
 }
 
 const DEFAULT_CONFIG: &str = include_str!("default.toml");
@@ -35,62 +39,18 @@ fn main() -> Result<()> {
 
     let config = Config::load(config_path)?;
 
+    let output_writer: Box<dyn Write> = match args.output {
+        Some(ref path) => File::create_new(path)
+            .map(|f| Box::new(f) as Box<dyn Write>)
+            .context("output file already exists")?,
+        None => Box::new(std::io::stdout()),
+    };
+
+    let mut csv_writer = csv::Writer::from_writer(output_writer);
+
     while let Some(Ok(region)) = regions_iter.next() {
-        if config.exclude.matches(&region) {
-            continue;
-        }
-
-        let mut orgs = HashSet::new();
-
-        let mut factbook = false;
-        let mut ros = false;
-        let mut embassies = false;
-
-        for factbook_config in &config.include.factbook {
-            if factbook_config.matches(&region) {
-                factbook = true;
-                if let Some(org) = &factbook_config.org {
-                    orgs.insert(org);
-                }
-            }
-        }
-
-        for office_config in &config.include.office {
-            if office_config.matches(&region) {
-                ros = true;
-                if let Some(org) = &office_config.org {
-                    orgs.insert(org);
-                }
-            }
-        }
-
-        for appointer_config in &config.include.appointer {
-            if appointer_config.matches(&region) {
-                ros = true;
-                // if let Some(org) = &appointer_config.org {
-                //     orgs.insert(org);
-                // }
-            }
-        }
-
-        for embassy_config in &config.include.embassy {
-            if embassy_config.matches(&region) {
-                embassies = true;
-                if let Some(org) = &embassy_config.org {
-                    orgs.insert(org);
-                }
-            }
-        }
-
-        if factbook || ros || embassies {
-            println!(
-                "{}: factbook={}, ros={}, embassies={}, orgs={:?}",
-                region.name(),
-                factbook,
-                ros,
-                embassies,
-                orgs
-            );
+        if let Some(outcome) = config.matches(&region) {
+            csv_writer.serialize(outcome)?;
         }
     }
 
